@@ -20,11 +20,11 @@
                 <label>Select Company:</label>
             </th>
             <td>
-                <select id="company" asp-for="company" name="company" form="addemp">
+                <select id="company" asp-for="CompanyId" name="CompanyId" form="addemp">
 
                     @foreach (var company in ViewBag.Companies)
                     {
-                        <option value="{@company.Id}">@company.Name</option>
+                        <option value="@company.Id">@company.Name</option>
                     }
                 </select>
             </td>

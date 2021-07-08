@@ -43,17 +43,17 @@ namespace AdminTask.Services
             {
                 if (model.Type == SearchTypee.Name)
                 {
-                    var employees = GetEmployees().Where(e => e.Name.Contains(model.SearchString));
+                    var employees = db.employees.Where(e => e.Name.Contains(model.SearchString)).Include(c=>c.company);
                     return employees;
                 }
                 else if (model.Type == SearchTypee.EMAIL)
                 {
-                    var employees = GetEmployees().Where(e => e.Email.Contains(model.SearchString));
+                    var employees = db.employees.Where(e => e.Email.Contains(model.SearchString)).Include(c => c.company);
                     return employees;
                 }
                 else
                 {
-                    var employees = GetEmployees().Where(e => e.company.Name.Contains(model.SearchString));
+                    var employees = db.employees.Where(e => e.company.Name.Contains(model.SearchString)).Include(c => c.company);
                     return employees;
                 }
             }
