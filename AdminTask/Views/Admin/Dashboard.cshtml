@@ -1,0 +1,149 @@
+﻿
+@{
+    ViewData["Title"] = "Dashboard";
+}
+@section Styles{ 
+<link href="~/css/Admin.css" rel="stylesheet" />
+}
+<section class="admin-section">
+    <div class="admin-container">
+        <div class="left-admin-col col-xl-2 col-lg-3 col-md-4 ">
+            <div class="dashboard-header">
+                <h3>Welcome, Admin</h3>
+            </div>
+            <div class="dashboard-buttons-container">
+                <div class="button-container">
+                    <img src="~/SVG/dashboard.svg">
+                    <button onClick="window.location.reload();" class="dashboard-button">Dashboard</button>
+                </div>
+               
+                <div class="button-container">
+                    <img src="~/SVG/building.svg">
+                    <button onclick="showCompanies()" class="dashboard-button">Manage Companies</button>
+                    <img id="arrow-down1" class="arrow-img" src="~/SVG/arrow-down-sign-to-navigate.svg" />
+                </div>
+                <div id="admin-setting" style="display:none;">
+                    <div class="button-container">
+                        <img src="~/SVG/home.svg" />
+                        <a asp-action="AllCompanies" asp-controller="Admin" class="dashboard-button">All Companies</a>
+                    </div>
+                    <div class="button-container">
+                        <img src="~/SVG/role2.svg">
+                        <button type="button" onclick="AddCompany()"  class="dashboard-button">Add Company</button>
+                    </div>
+                </div>
+
+                <div class="button-container">
+                    <img src="~/SVG/admin.svg">
+                    <button onclick="showEmployees()" class="dashboard-button"> Manage Employees</button>
+                    <img id="arrow-down2" class="arrow-img" src="~/SVG/arrow-down-sign-to-navigate.svg" />
+                </div>
+                <div id="propAction-setting" style="display:none;">
+                    <div class="button-container">
+                        <img src="~/SVG/user.svg" />
+                        <a asp-action="AllEmployees" asp-controller="Admin" class="dashboard-button">All Employees</a>
+                    </div>
+                    <div class="button-container">
+                        <img src="~/SVG/user.svg">
+                        <button type="button" onclick="AddEmployee()" class="dashboard-button">Add Employee</button>
+                    </div>
+                </div>
+
+               
+
+            </div>
+        </div>
+        <div class="right-admin-col col-xl-10 col-lg-9 col-md-8 col-12">
+            <div class="d-xl-none d-lg-none d-md-none d-sm-block col-sm-1">
+                <img onclick=" ShowHideLeftCol()" id="show-left-col" style="max-width:35px;max-height:35px;border:1px dotted black;margin-bottom:10px;cursor:pointer;" src="~/SVG/more.svg" />
+            </div>
+            <div id="main-admin-page" style="justify-content:center;margin:auto">
+                <partial name="DashboardPartialView" />
+            </div>
+        </div>
+    </div>
+</section>
+@section scripts{ 
+<script>
+    function showCompanies() {
+        var adminSetting = document.getElementById("admin-setting");
+        var downArrow = document.getElementById("arrow-down1");
+        var upArrow = document.getElementById("arrow-up");
+
+        if (adminSetting.style.display === "none") {
+            adminSetting.style.display = "block";
+        }
+        else {
+            adminSetting.style.display = "none";
+        }
+    }
+    function showEmployees() {
+        var propsetting = document.getElementById("propAction-setting");
+
+        if (propsetting.style.display === "none") {
+            propsetting.style.display = "block";
+        }
+        else {
+            propsetting.style.display = "none";
+        }
+    }
+    function ShowHideLeftCol() {
+        let LeftCol = document.querySelector('.left-admin-col');
+        let RightCol = document.querySelector('.right-admin-col');
+        if (!LeftCol.classList.contains('col-6')) {
+            console.log("Aaa");
+            LeftCol.classList.add('col-6');
+            RightCol.classList.add('col-6');
+            RightCol.classList.remove('col-12');
+
+
+        } else {
+            console.log("bbb");
+            LeftCol.classList.remove('col-6');
+            RightCol.classList.remove('col-6');
+            RightCol.classList.add('col-12');
+        }
+    }
+    function AjaxCall(dataObject, url, Method) {
+        $.ajax({
+            url: url,
+            data: dataObject,
+            method: Method,
+            success: renderAjaxCall,
+            error: console.log,
+        })
+    }
+    function renderAjaxCall(result) {
+        $("#main-admin-page").html(result);
+    }
+
+    function AddCompany() {
+        var Url = `AddCompany`;
+        AjaxCall(null, Url, "GET");
+    }
+    function AddCompantPost() {
+        var Url = `AddCompany`;
+        var data = {
+            Name: $("#name").val(),
+            Website: $("#website").val(),
+            Address: $("#address").val(),
+        }
+        AjaxCall(data,Url,"POST")
+    }
+    function AddEmployee() {
+        var Url = `AddEmployee`;
+        console.log(Url);
+        AjaxCall(null, Url, "GET");
+    }
+    function AddEmployeePost() {
+        var Url = `AddEmployee`;
+        var data = {
+            Name: $("#name").val(),
+            Email: $("#website").val(),
+            company:  $("#company").val() ,
+        }
+        AjaxCall(data, Url, "POST")
+    }
+</script>
+}
+

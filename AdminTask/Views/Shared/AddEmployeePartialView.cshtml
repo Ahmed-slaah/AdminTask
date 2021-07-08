@@ -1,0 +1,42 @@
+﻿@using AdminTask.Models
+@model Employee
+<h2>Add new Employee</h2>
+
+<form asp-controller="Admin" id="addemp" asp-action="AddCompany">
+
+    <table class="table table-responsive table-hover">
+        <tr>
+            <th scope="col">Name</th>
+            <td colspan="4"><input id="name" class="form-control" type="text" asp-for="Name" /> </td>
+            <td><span asp-validation-for="Name" class="badge badge-danger"></span></td>
+        </tr>
+        <tr>
+            <th scope="col">Email</th>
+            <td colspan="4"><input id="website" class="form-control" type="email" asp-for="Email" /> </td>
+            <td><span asp-validation-for="Email" class="badge badge-danger"></span></td>
+        </tr>
+        <tr>
+            <th>
+                <label>Select Company:</label>
+            </th>
+            <td>
+                <select id="company" asp-for="company" name="company" form="addemp">
+
+                    @foreach (var company in ViewBag.Companies)
+                    {
+                        <option value="{@company.Id}">@company.Name</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tfoot>
+            <tr>
+                <td colspan="1"><button type="button" id="addbtn" style="width:100%" onclick="AddEmployeePost()" class="btn btn-success" disabled>Add</button></td>
+                <td colspan="1">
+                    <a asp-action="Dashboard" asp-controller="Admin" style="width:100%" type="button" class="btn btn-danger">Cancel</a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</form>
+<script src="~/js/add-btn.js"></script>

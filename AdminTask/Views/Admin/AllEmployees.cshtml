@@ -1,0 +1,97 @@
+﻿@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@using AdminTask.ViewModel;
+@model EmployeeViewModel
+
+
+<div class="container text-center align-items-center d-flex flex-column justify-content-center">
+    <div class="container text-center align-items-center d-flex flex-column justify-content-center">
+
+        <form asp-action="SearchEmployee" asp-controller="Admin" method="post" class="form-inline">
+            <div class="input-group">
+                <div class="form-outline">
+                    <input style="min-width:120px;" name="SearchString" id="search-input" type="search" class="form-control" />
+                </div>
+                <div class="form-check form-check-inline ml-5">
+                    <input class="form-check-input" type="radio" name="Type" id="inlineRadio2" value="@SearchTypee.Company">
+                    <label class="form-check-label" for="inlineRadio2">Company</label>
+                </div>
+                <div class="form-check form-check-inline ml-5">
+                    <input class="form-check-input" type="radio" name="Type" id="inlineRadio1" value="@SearchTypee.Name">
+                    <label class="form-check-label" for="inlineRadio1">Name</label>
+                </div>
+                <div class="form-check form-check-inline ml-5">
+                    <input class="form-check-input" type="radio" name="Type" id="inlineRadio3" value="@SearchTypee.EMAIL">
+                    <label class="form-check-label" for="inlineRadio3">Email</label>
+                </div>
+                <button id="search-button" type="submit" class="btn btn-primary ml-4">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <hr />
+    <div class="container text-center align-items-center d-flex flex-column justify-content-center">
+        <form asp-action="AllEmployees" asp-controller="Admin" method="get" style="margin:0 auto;">
+            <table class="table table-responsive table-hover" style="margin:0 auto;">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Employee ID</th>
+                        <th scope="col">Employee Name</th>
+                        <th scope="col">Employee Email</th>
+                        <th scope="col">Company Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.employees.Count() > 0)
+                    {
+                        @foreach (var emp in Model.employees)
+                        {
+                            <tr>
+                                <th scope="row">@emp.Id</th>
+                                <td>@emp.Name</td>
+                                <td>@emp.Email</td>
+                                <td>@emp.company?.Name</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5">
+                                <h2 class="text-center">There is no Employees</h2>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br />
+            <table cellpadding="0" cellspacing="0">
+                <tr>
+                    @for (int i = 1; i <= Model.PageCount; i++)
+                    {
+                        <td>
+                            @if (i != Model.CurrentPageIndex)
+                            {
+                                <a class="btn btn-outline-dark" href="javascript:PagerClick(@i);">@i</a>
+                            }
+                            else
+                            {
+                                <span class="btn btn-dark">@i</span>
+                            }
+                        </td>
+                    }
+                    <td>
+                        <a id="search-button" asp-action="Dashboard" asp-controller="Admin" class="btn btn-outline-danger">Dashboard</a>
+                    </td>
+                </tr>
+            </table>
+            <input type="hidden" id="hfCurrentPageIndex" name="page" />
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+        function PagerClick(index) {
+            document.getElementById("hfCurrentPageIndex").value = index;
+            document.forms[1].submit();
+        }
+</script>
+

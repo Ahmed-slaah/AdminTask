@@ -1,0 +1,33 @@
+﻿@using AdminTask.Models
+@model Company
+<h2>Add new Company</h2>
+
+<form asp-controller="Admin" asp-action="AddCompany">
+
+    <table class="table table-responsive table-hover">
+        <tr>
+            <th scope="col">Name</th>
+            <td colspan="4"><input id="name" class="form-control" type="text" asp-for="Name" /> </td>
+            <td><span asp-validation-for="Name" class="badge badge-danger"></span></td>
+        </tr>
+        <tr>
+            <th scope="col">Website</th>
+            <td colspan="4"><input id="website" class="form-control" type="url" asp-for="Website" /> </td>
+            <td><span asp-validation-for="Website" class="badge badge-danger"></span></td>
+        </tr>
+        <tr>
+            <th scope="col">Address</th>
+            <td colspan="4"><input id="address" class="form-control" type="text" asp-for="Address" /> </td>
+            <td><span asp-validation-for="Address" class="badge badge-danger"></span></td>
+        </tr>
+        <tfoot>
+            <tr>
+                <td colspan="1"><button type="button" id="addbtn" style="width:100%" onclick="AddCompantPost()" class="btn btn-success" disabled>Add</button></td>
+                <td colspan="1"> 
+                    <a asp-action="Dashboard" asp-controller="Admin" style="width:100%" type="button" class="btn btn-danger">Cancel</a>
+                </td> 
+            </tr>
+        </tfoot>
+    </table>
+</form>
+<script src="~/js/add-btn.js"></script>
